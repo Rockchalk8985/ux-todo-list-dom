@@ -17,21 +17,41 @@ let todos = [
   },
 ];
 
+let app = document.querySelector("#app");
+let h1 = document.createElement("h1");
+let ul = document.createElement("ul");
+
+h1.innerText = "Todo List";
+
+app.appendChild(h1);
+app.appendChild(ul);
+
 function renderTodoApp() {
-  let app = document.querySelector("#app");
-  let h1 = document.createElement("h1");
-  let ul = document.createElement("ul");
-
-  h1.innerText = "Todo List";
-
-  app.appendChild(h1);
-  app.appendChild(ul);
   //loop through todos
+  let toDoList = "";
   for (let i = 0; i < todos.length; i++) {
-    let li = `<li><input type="checkbox">${todos[i].description}</input></li>`;
-    ul.innerHTML += li;
+    if (todos[i].completed == true) {
+      toDoList += `<li><input type="checkbox" checked>${todos[i].description}</input></li>`;
+    } else {
+    toDoList += `<li><input type="checkbox">${todos[i].description}</input></li>`;
+    }
   }
-
+  ul.innerHTML = toDoList;
 }
+let textInput = document.querySelector("#newTodoItem");
+let form = document.querySelector("#form");
+
+form.onsubmit = (e) => {
+  e.preventDefault();
+
+  let newItem = {
+    completed: false,
+    description: textInput.value,
+  };
+
+  todos.push(newItem);
+  textInput.value = "";
+  renderTodoApp();
+};
 
 renderTodoApp();
